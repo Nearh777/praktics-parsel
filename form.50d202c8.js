@@ -1,0 +1,2 @@
+const e=document.querySelector(".js-contact-form");!function(){const t=JSON.parse(localStorage.getItem("user-data-key"));console.log(t),t&&Object.entries(t).forEach((([t,a])=>{e.elements[t].value=a}))}(),e.addEventListener("input",(function(e){const t=JSON.parse(localStorage.getItem("user-data-key"))||{};t[e.target.name]=e.target.value,localStorage.setItem("user-data-key",JSON.stringify(t))}));
+//# sourceMappingURL=form.50d202c8.js.map
