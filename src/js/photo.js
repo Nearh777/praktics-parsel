@@ -1,11 +1,11 @@
 const searceFormEl = document.querySelector('.js-search-form');
 const loadMoreBtnEl = document.querySelector('.js-more');
 const listEl = document.querySelector('.js-gallery');
+
 import { Notify } from 'notiflix/build/notiflix-notify-aio';
-
 import { searchData } from './service/api';
-
 import { createMarkup } from './createMarkup';
+import { spinnerPlay, spinnerStop } from './spinner';
 
 let page = 1;
 
@@ -24,6 +24,7 @@ const callback = function (entries, observer) {
       observer.unobserve(entry.target);
       console.log(entry.target);
       page += 1;
+      spinnerPlay();
       searchData(searchValue, page).then(({ results, total }) => {
         const markup = createMarkup(results);
         listEl.insertAdjacentHTML('beforeend', markup);
@@ -32,8 +33,7 @@ const callback = function (entries, observer) {
           const lastItem = document.querySelector('.gallery__item:last-child');
           observer.observe(lastItem);
         }
-      });
-      console.log(page);
+      }).catch(() => Notify.failure('Упс, картинки закінчились')).finally(() => spinnerStop());
     }
   });
 };
@@ -49,7 +49,11 @@ function hendleLoadPhoto(e) {
   if (!searchValue) {
     return Notify.failure('Введыть валідні данні в пошуку!');
   }
+  spinnerPlay();
   searchData(searchValue, page).then(({ results, total }) => {
+    if (results.length === 0) {
+      return Notify.failure('Спробуйте іншу назву!');
+    }
     const markup = createMarkup(results);
     listEl.insertAdjacentHTML('beforeend', markup);
     hasMorePhotos = page < Math.ceil(total / 21);
@@ -57,5 +61,5 @@ function hendleLoadPhoto(e) {
       const lastItem = document.querySelector('.gallery__item:last-child');
       observer.observe(lastItem);
     }
-  });
+  }).catch(() => Notify.failure('Данні не знайдено')).finally(() => spinnerStop());
 }
