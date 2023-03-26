@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./sass/_photo.scss" />
+    <title>photos</title>
+</head>
+
+<body>
+    <section class="gallery-section">
+        <div class="container">
+            <form class="search-form js-search-form">
+                <input type="text" name="query" class="search-input" />
+                <button type="submit" class="search-btn">search</button>
+            </form>
+            <ul class="gallery js-gallery list"></ul>
+
+            <button type="button" class="load-more js-more">
+                Load more
+            </button>
+        </div>
+    </section>
+    <script src="./js/photo.js" type="module"></script>
+</body>
+
+</html>
